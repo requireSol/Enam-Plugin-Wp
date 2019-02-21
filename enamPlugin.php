@@ -11,17 +11,21 @@ Text Domain: enam
 */
 
 /*
- * Plugin constants Path / Secure Plugin
+ * Plugin constants Path / Secure Plugin DEFAULT ABS
  */
 defined( 'ABSPATH' ) or die("FAIL");
 
 /**
  * Class EnamPlugin
+ * This is a main class simultaneously with Java
+ * The Class will be started here as well hided from Php Doc
+ * @author Enam Solaimani
  */
 class EnamPlugin
 {
     /**
-     * EnamPlugin.
+     * EnamPlugin constructor.
+     * Enam Plugin constructor will be fired on activation
      */
     public function __construct()
     {
@@ -29,23 +33,45 @@ class EnamPlugin
         add_action( 'init', array( $this, 'registerPluginMenuItem' ) );
     }
 
+
+    /**
+     * If plugin is turned on register the plugin to the admin page
+     * Generated a Custom Post Type
+     * Flush rewrite rules
+     * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
+     * @see registerPluginMenuItem()
+     */
     function activate() {
-        // generated a Custom Post Type
+        // generated a Custom Post Type / PostPlugin
         $this->registerPluginMenuItem();
         // flush rewrite rules
         flush_rewrite_rules();
     }
+
+    /**
+     * Flush rewrite rules and delete menu item
+     * Flush rewrite rules
+     * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
+     * @see registerPluginMenuItem()
+     */
     function deactivate() {
-        // flush rewrite rules
+        //
         flush_rewrite_rules();
     }
 
+    /**
+     * Delete Custom Post Type
+     * delete all the plugin data from the DB
+     * @author Enam Solaimani
+     */
     function uninstall() {
-        // delete Custom Post Type
 
-        // delete all the plugin data from the DB
     }
 
+    /**
+     * Register Plugin with function register_post_type()
+     * @dependencies registerPluginMenuItem use register_post_type() to Register the Plugin
+     */
     function registerPluginMenuItem() {
         register_post_type( 'enam', array( 'public' => true, 'label' => 'Enam' ) );
     }

@@ -60,15 +60,6 @@ class EnamPlugin
     }
 
     /**
-     * Delete Custom Post Type
-     * delete all the plugin data from the DB
-     * @author Enam Solaimani
-     */
-    function uninstall() {
-
-    }
-
-    /**
      * Register Plugin with function register_post_type()
      * @dependencies registerPluginMenuItem use register_post_type() to Register the Plugin
      */
@@ -77,7 +68,7 @@ class EnamPlugin
     }
  
 }
-/*
+/**
  * Starts our plugin class.
  */
 if ( class_exists( 'EnamPlugin' ) ) {

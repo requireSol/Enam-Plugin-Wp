@@ -2,7 +2,7 @@
 /*
 Plugin Name: EnamPlugin
 Plugin URI: http://enam.io
-Description: This is my first Plugin on Wordpress
+Description: This is my first Plugin on Wordpress. Inspiration: https://github.com/Alecaddd/WordPressPlugin101
 Version: 1.0.0 Developing
 Author: Enam Solaimani
 Author URI: http://enam.io
@@ -26,13 +26,27 @@ class EnamPlugin
     /**
      * EnamPlugin constructor.
      * Enam Plugin constructor will be fired on activation
+     * @author Enam Solaimani
      */
     public function __construct()
     {
-        //Add Plugin to Admin Menu Bar
+
+    }
+    /**
+     * Add Plugin to Admin Menu Bar
+     * @dependencies Init the Plugin with add-action
+     */
+    function initialise() {
         add_action( 'init', array( $this, 'registerPluginMenuItem' ) );
     }
 
+    /**
+     * Add scripts and stylesheets
+     * @dependencies Add scripts and stylesheets with add-action
+     */
+    function register() {
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+    }
 
     /**
      * If plugin is turned on register the plugin to the admin page
@@ -52,10 +66,8 @@ class EnamPlugin
      * Flush rewrite rules and delete menu item
      * Flush rewrite rules
      * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
-     * @see registerPluginMenuItem()
      */
     function deactivate() {
-        //
         flush_rewrite_rules();
     }
 
@@ -66,13 +78,26 @@ class EnamPlugin
     function registerPluginMenuItem() {
         register_post_type( 'enam', array( 'public' => true, 'label' => 'Enam' ) );
     }
+
+    /**
+     * Enqueue all our scripts and stylesheets
+     * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
+     */
+    function enqueue() {
+        wp_enqueue_style( 'pluginstyle', plugins_url( '/public/style.css', __FILE__ ) );
+        wp_enqueue_script( 'pluginscript', plugins_url( '/public/script.js', __FILE__ ) );
+    }
  
 }
+
 /**
  * Starts our plugin class.
  */
 if ( class_exists( 'EnamPlugin' ) ) {
     $enamPlugin = new EnamPlugin();
+    //register all scripts and stylesheets
+    $enamPlugin->register();
+    $enamPlugin->initialise();
 }
 
 // activation

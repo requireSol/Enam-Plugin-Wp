@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: EnamPlugin
-Plugin URI: http://enam.io
+Plugin URI: https://enam.io
 Description: This is my first Plugin on Wordpress. Inspiration: https://github.com/Alecaddd/WordPressPlugin101
 Version: 1.0.0 Developing
 Author: Enam Solaimani
-Author URI: http://enam.io
+Author URI: https://enam.io
 License: GPLv2 or later
 Text Domain: enam
 */

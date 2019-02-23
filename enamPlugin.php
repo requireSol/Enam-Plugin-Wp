@@ -36,7 +36,7 @@ class EnamPlugin
      * Add Plugin to Admin Menu Bar
      * @dependencies Init the Plugin with add-action
      */
-    function initialise() {
+    public function initialise() {
         add_action( 'init', array( $this, 'registerPluginMenuItem' ) );
     }
 
@@ -44,7 +44,7 @@ class EnamPlugin
      * Add scripts and stylesheets
      * @dependencies Add scripts and stylesheets with add-action
      */
-    function register() {
+    public function register() {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
     }
 
@@ -55,7 +55,7 @@ class EnamPlugin
      * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
      * @see registerPluginMenuItem()
      */
-    function activate() {
+    protected function activate() {
         // generated a Custom Post Type / PostPlugin
         $this->registerPluginMenuItem();
         // flush rewrite rules
@@ -67,7 +67,7 @@ class EnamPlugin
      * Flush rewrite rules
      * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
      */
-    function deactivate() {
+    protected function deactivate() {
         flush_rewrite_rules();
     }
 
@@ -75,7 +75,7 @@ class EnamPlugin
      * Register Plugin with function register_post_type()
      * @dependencies registerPluginMenuItem use register_post_type() to Register the Plugin
      */
-    function registerPluginMenuItem() {
+    private function registerPluginMenuItem() {
         register_post_type( 'enam', array( 'public' => true, 'label' => 'Enam' ) );
     }
 
@@ -83,7 +83,7 @@ class EnamPlugin
      * Enqueue all our scripts and stylesheets
      * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
      */
-    function enqueue() {
+    protected function enqueue() {
         wp_enqueue_style( 'pluginstyle', plugins_url( '/public/style.css', __FILE__ ) );
         wp_enqueue_script( 'pluginscript', plugins_url( '/public/script.js', __FILE__ ) );
     }
@@ -96,14 +96,13 @@ class EnamPlugin
 if ( class_exists( 'EnamPlugin' ) ) {
     $enamPlugin = new EnamPlugin();
     //register all scripts and stylesheets
-    $enamPlugin->register();
     $enamPlugin->initialise();
+    $enamPlugin->register();
+
 }
 
-// activation
+// activation if you do this in static way Use $enamPlugin == "ClassName"
 register_activation_hook( __FILE__, array( $enamPlugin, 'activate' ) );
 
 // deactivation
 register_deactivation_hook( __FILE__, array( $enamPlugin, 'deactivate' ) );
-
-// uninstall

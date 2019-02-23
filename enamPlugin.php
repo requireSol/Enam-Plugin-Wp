@@ -15,6 +15,8 @@ Text Domain: enam
  */
 defined( 'ABSPATH' ) or die("FAIL");
 
+if( !class_exists('EnamPlugin')){
+
 /**
  * Class EnamPlugin
  * This is a main class simultaneously with Java
@@ -24,13 +26,18 @@ defined( 'ABSPATH' ) or die("FAIL");
 class EnamPlugin
 {
     /**
-     * EnamPlugin constructor.
+     * Plugin baseName will be declared for $plugin
+     * @var string
+     */
+    public $plugin;
+    /**
      * Enam Plugin constructor will be fired on activation
+     * Add Plugin base name to $plugin object variable
      * @author Enam Solaimani
      */
     public function __construct()
     {
-
+        $this->plugin = plugin_basename(__FILE__);
     }
     /**
      * Add Plugin to Admin Menu Bar
@@ -42,10 +49,38 @@ class EnamPlugin
 
     /**
      * Add scripts and stylesheets
+     * Add a admin panel menu item for admin controll with UI
+     * Add a setting on Plugin Menu
      * @dependencies Add scripts and stylesheets with add-action
      */
     public function register() {
+        //Include Scripts and Styles
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+        //Add a admin panel menu item for admin controll with UI
+        add_action( 'admin_menu', array( $this, 'addAdminPage' ) ); //addAdminPage will be fired here
+        //Add a setting on Plugin Menu
+        add_filter( "plugin_action_links_$this->plugin", array( $this, 'settings_link' ) ); //setting_link will be fired
+
+    }
+
+    public function settings_link( $links ) {
+        $settings_link = '<a href="admin.php?page=enamPlugin">Settings</a>';
+        array_push( $links, $settings_link );
+        return $links;
+    }
+
+    /**
+     * Register admin page for enamPlugin
+     */
+    public function addAdminPage() {                                                                                                  //Function to declare index file//Plugin Icon//Placing of MenuBar Item
+        add_menu_page( 'Enam Plugin', 'EnamPlugin', 'manage_options', 'enamPlugin', array( $this, 'admin_index' ), 'dashicons-store', 110 );
+    }
+
+    /**
+     *  Include admin.php to show custom UI and content
+     */
+    public function admin_index() {
+        require_once plugin_dir_path( __FILE__ ) . 'adminpanel/admin.php';
     }
 
     /**
@@ -75,15 +110,15 @@ class EnamPlugin
      * Register Plugin with function register_post_type()
      * @dependencies registerPluginMenuItem use register_post_type() to Register the Plugin
      */
-    private function registerPluginMenuItem() {
-        register_post_type( 'enam', array( 'public' => true, 'label' => 'Enam' ) );
+    public function registerPluginMenuItem() {
+        register_post_type( 'enam', array( 'public' => true, 'label' => 'EnamPost' ) );
     }
 
     /**
      * Enqueue all our scripts and stylesheets
      * @dependencies The Plugin will Register a Post Type with registerPluginMenuItem
      */
-    protected function enqueue() {
+    public function enqueue() {
         wp_enqueue_style( 'pluginstyle', plugins_url( '/public/style.css', __FILE__ ) );
         wp_enqueue_script( 'pluginscript', plugins_url( '/public/script.js', __FILE__ ) );
     }
@@ -106,3 +141,5 @@ register_activation_hook( __FILE__, array( $enamPlugin, 'activate' ) );
 
 // deactivation
 register_deactivation_hook( __FILE__, array( $enamPlugin, 'deactivate' ) );
+
+}

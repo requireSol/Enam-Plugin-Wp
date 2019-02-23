@@ -3,7 +3,7 @@
 Plugin Name: EnamPlugin
 Plugin URI: https://enam.io
 Description: This is my first Plugin on Wordpress. Inspiration: https://github.com/Alecaddd/WordPressPlugin101
-Version: 1.0.0 Developing
+Version: 0.0.1 Alpha
 Author: Enam Solaimani
 Author URI: https://enam.io
 License: GPLv2 or later
@@ -58,12 +58,17 @@ class EnamPlugin
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
         //Add a admin panel menu item for admin controll with UI
         add_action( 'admin_menu', array( $this, 'addAdminPage' ) ); //addAdminPage will be fired here
-        //Add a setting on Plugin Menu
+        //Add a setting on Plugin
         add_filter( "plugin_action_links_$this->plugin", array( $this, 'settings_link' ) ); //setting_link will be fired
 
     }
 
-    public function settings_link( $links ) {
+    /**
+     * Set the settings Link wich will open the adin controll menubar item
+     * @param $links
+     * @return mixed
+     */
+    public function settings_link($links) {
         $settings_link = '<a href="admin.php?page=enamPlugin">Settings</a>';
         array_push( $links, $settings_link );
         return $links;

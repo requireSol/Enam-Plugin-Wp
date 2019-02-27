@@ -1,0 +1,16 @@
+{
+    "name": "root/enam-plugin",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "requireSol",
+            "email": "enamsolaimani@icloud.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Adminpanel\\": "./adminpanel"
+        }
+    }
+}

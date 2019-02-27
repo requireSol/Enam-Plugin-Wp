@@ -1,4 +1,4 @@
-<h1>Enam Plugin</h1>
+
 <?php
 /**
  * Created by PhpStorm.

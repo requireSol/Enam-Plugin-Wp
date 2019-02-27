@@ -19,20 +19,20 @@ defined( 'ABSPATH' ) or die("FAIL");
 if( file_exists(dirname(__FILE__) . '/vendor/autoload.php')){
     require_once dirname(__FILE__) . '/vendor/autoload.php';
 }
-use src\controller;
+use src;
 
 /**
  * The code that runs during plugin activation
  */
 function activate_enamPlugin() {
-    controller\Activate::activate();
+    src\controller\Activate::activate();
 }
 register_activation_hook( __FILE__, 'activate_enamPlugin' );
 /**
  * The code that runs during plugin deactivation
  */
 function deactivate_enamPlugin() {
-    controller\Deactivate::deactivate();
+    src\controller\Deactivate::deactivate();
 }
 register_deactivation_hook( __FILE__, 'deactivate_enamPlugin' );
 /**

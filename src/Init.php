@@ -6,7 +6,8 @@
  * Time: 19:19
  */
 
-namespace src\controller;
+namespace src;
+use src\controller;
 
 final class Init
 {
@@ -17,9 +18,9 @@ final class Init
     public static function get_services()
     {
         return [
-            pages\Admin::class,
-            Enqueue::class,
-            SettingsLinks::class
+            controller\pages\Admin::class,
+            controller\Enqueue::class,
+            controller\SettingsLinks::class
         ];
     }
     /**

@@ -6,7 +6,7 @@
  * Time: 23:00
  */
 
-namespace src\pages;
+namespace src\controller\pages;
 use src\controller\BaseController;
 
 class Admin extends BaseController
@@ -18,6 +18,6 @@ class Admin extends BaseController
         add_menu_page( 'Enam Plugin', 'Enam', 'manage_options', 'enamPlugin', array( $this, 'admin_index' ), 'dashicons-store', 110 );
     }
     public function admin_index() {
-        require_once '../view/admin.php';
+        require_once __FILE__ . '../view/admin.php';
     }
 }

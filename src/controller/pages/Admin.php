@@ -8,16 +8,38 @@
 
 namespace src\controller\pages;
 use src\controller\BaseController;
+use src\core\Settings;
 
 class Admin extends BaseController
 {
-    public function register() {
-        add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
+    public $settings;
+    public $pages = array();
+    public function __construct()
+    {
+        $this->settings = new Settings();
+        $this->pages = [
+            [
+                'page_title' => 'Enam Plugin',
+                'menu_title' => 'Enam',
+                'capability' => 'manage_options',
+                'menu_slug' => 'enamPlugin',        //Try to use view here
+                'callback' => function() { echo '<h1>Enam Plugin</h1>'; },
+                'icon_url' => 'dashicons-store',
+                'position' => 110
+            ]/*,   #you can add many admin Pages on menu bar and different content
+            [
+                'page_title' => 'Enam Plugin',
+                'menu_title' => 'Enam2',
+                'capability' => 'manage_options',
+                'menu_slug' => 'enamPlugin',
+                'callback' => function() { echo '<h1>Enam Plugin</h1>'; },
+                'icon_url' => 'dashicons-store',
+                'position' => 110
+            ]*/
+        ];
     }
-    public function add_admin_pages() {
-        add_menu_page( 'Enam Plugin', 'Enam', 'manage_options', 'enamPlugin', array( $this, 'admin_index' ), 'dashicons-store', 110 );
-    }
-    public function admin_index() {
-        require_once __FILE__ . '../view/admin.php';
+    public function register()
+    {
+        $this->settings->addPages( $this->pages )->register();
     }
 }

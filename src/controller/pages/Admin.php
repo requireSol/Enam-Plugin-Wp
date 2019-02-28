@@ -9,37 +9,66 @@
 namespace src\controller\pages;
 use src\controller\BaseController;
 use src\core\Settings;
+use src\core\callbacks\AdminCallbacks;
 
 class Admin extends BaseController
 {
+
     public $settings;
+    public $callbacks;
     public $pages = array();
-    public function __construct()
+    public $subpages = array();
+    public function register()
     {
         $this->settings = new Settings();
-        $this->pages = [
-            [
+        $this->callbacks = new AdminCallbacks();
+        $this->setPages();
+        $this->setSubpages();
+        $this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->addSubPages( $this->subpages )->register();
+    }
+    public function setPages()
+    {
+        $this->pages = array(
+            array(
                 'page_title' => 'Enam Plugin',
                 'menu_title' => 'Enam',
                 'capability' => 'manage_options',
-                'menu_slug' => 'enamPlugin',        //Try to use view here
-                'callback' => function() { echo '<h1>Enam Plugin</h1>'; },
-                'icon_url' => 'dashicons-store',
-                'position' => 110
-            ]/*,   #you can add many admin Pages on menu bar and different content
-            [
-                'page_title' => 'Enam Plugin',
-                'menu_title' => 'Enam2',
-                'capability' => 'manage_options',
                 'menu_slug' => 'enamPlugin',
-                'callback' => function() { echo '<h1>Enam Plugin</h1>'; },
+                'callback' => array( $this->callbacks, 'adminDashboard' ),
                 'icon_url' => 'dashicons-store',
                 'position' => 110
-            ]*/
-        ];
+            )
+        );
     }
-    public function register()
+    public function setSubpages()
     {
-        $this->settings->addPages( $this->pages )->register();
+        $this->subpages = array(
+            array(
+                'parent_slug' => 'enamPlugin',
+                'page_title' => 'Custom Post Type',
+                'menu_title' => 'CPT',
+                'capability' => 'manage_options',
+                'menu_slug' => 'enamCpt',
+                'callback' => array( $this->callbacks, 'adminCpt' )
+            ),
+            array(
+                'parent_slug' => 'enamPlugin',
+                'page_title' => 'Custom Taxonomies',
+                'menu_title' => 'Taxonomies',
+                'capability' => 'manage_options',
+                'menu_slug' => 'enamTaxonomies',
+                'callback' => array( $this->callbacks, 'adminTaxonomy' )
+            ),
+            array(
+                'parent_slug' => 'enamPlugin',
+                'page_title' => 'Custom Widgets',
+                'menu_title' => 'Widgets',
+                'capability' => 'manage_options',
+                'menu_slug' => 'enamWidgets',
+                'callback' => array( $this->callbacks, 'adminWidget' )
+            )
+        );
     }
+
+
 }

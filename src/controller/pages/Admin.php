@@ -11,13 +11,33 @@ use src\controller\BaseController;
 use src\core\Settings;
 use src\core\callbacks\AdminCallbacks;
 
+/**
+ * Class Admin
+ * @package src\controller\pages
+ */
 class Admin extends BaseController
 {
 
+    /**
+     * @var
+     */
     public $settings;
+    /**
+     * @var
+     */
     public $callbacks;
+    /**
+     * @var array
+     */
     public $pages = array();
+    /**
+     * @var array
+     */
     public $subpages = array();
+
+    /**
+     *
+     */
     public function register()
     {
         $this->settings = new Settings();
@@ -26,6 +46,10 @@ class Admin extends BaseController
         $this->setSubpages();
         $this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->addSubPages( $this->subpages )->register();
     }
+
+    /**
+     *
+     */
     public function setPages()
     {
         $this->pages = array(
@@ -40,6 +64,10 @@ class Admin extends BaseController
             )
         );
     }
+
+    /**
+     *
+     */
     public function setSubpages()
     {
         $this->subpages = array(

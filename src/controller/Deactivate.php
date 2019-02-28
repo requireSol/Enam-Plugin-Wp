@@ -7,8 +7,15 @@
  */
 
 namespace src\controller;
+/**
+ * Class Deactivate
+ * @package src\controller
+ */
 class Deactivate
 {
+    /**
+     *
+     */
     public static function deactivate() {
         flush_rewrite_rules();
     }

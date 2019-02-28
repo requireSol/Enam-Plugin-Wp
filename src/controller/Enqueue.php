@@ -8,12 +8,22 @@
 
 namespace src\controller;
 
+/**
+ * Class Enqueue
+ * @package src\controller
+ */
 class Enqueue extends BaseController
 {
+    /**
+     *
+     */
     public function register() {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
     }
 
+    /**
+     *
+     */
     function enqueue() {
         // enqueue all our scripts
         wp_enqueue_style( 'pluginstyle', $this->plugin_url . '/public/style.css' );

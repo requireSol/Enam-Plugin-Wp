@@ -8,22 +8,46 @@
 
 namespace src\core;
 
+/**
+ * Class Settings
+ * @package src\core
+ */
 class Settings
 {
+    /**
+     * @var array
+     */
     public $admin_pages = array();
+    /**
+     * @var array
+     */
     public $admin_subpages = array();
+
+    /**
+     *
+     */
     public function register()
     {
         if ( ! empty($this->admin_pages) ) {
             add_action( 'admin_menu', array( $this, 'addAdminMenu' ) );
         }
     }
-    public function addPages( array $pages )
+
+    /**
+     * @param array $pages
+     * @return $this
+     */
+    public function addPages(array $pages )
     {
         $this->admin_pages = $pages;
         return $this;
     }
-    public function withSubPage( string $title = null )
+
+    /**
+     * @param string|null $title
+     * @return $this
+     */
+    public function withSubPage(string $title = null )
     {
         if ( empty($this->admin_pages) ) {
             return $this;
@@ -43,11 +67,20 @@ class Settings
         $this->admin_subpages = $subpage;
         return $this;
     }
-    public function addSubPages( array $pages )
+
+    /**
+     * @param array $pages
+     * @return $this
+     */
+    public function addSubPages(array $pages )
     {
         $this->admin_subpages = array_merge( $this->admin_subpages, $pages );
         return $this;
     }
+
+    /**
+     *
+     */
     public function addAdminMenu()
     {
         foreach ( $this->admin_pages as $page ) {

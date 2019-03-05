@@ -19,8 +19,8 @@ final class Init
     {
         return [
             controller\pages\Admin::class,
-            controller\Enqueue::class,
-            controller\SettingsLinks::class
+            controller\pages\Enqueue::class,
+            controller\pages\SettingsLinks::class
         ];
     }
     /**

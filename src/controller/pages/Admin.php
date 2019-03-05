@@ -123,7 +123,7 @@ class Admin extends BaseController
     {
         $args = array(
             array(
-                'id' => 'alecaddd_admin_index',
+                'id' => 'enam_admin_index',
                 'title' => 'Settings',
                 'callback' => array( $this->callbacks, 'enamAdminSection' ),
                 'page' => 'enamPlugin'

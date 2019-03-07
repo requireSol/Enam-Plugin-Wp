@@ -7,9 +7,11 @@
  */
 
 namespace src\controller\pages;
+
 use src\controller\BaseController;
 use src\core\Settings;
 use src\core\callbacks\AdminCallbacks;
+use src\core\callbacks\ManagerCallbacks;
 
 /**
  * Class Admin
@@ -34,8 +36,10 @@ class Admin extends BaseController
      * @var array
      */
     public $subpages = array();
-
-
+    /**
+     * @var array
+     */
+    public $callbacks_manager = array();
 
 
     /**
@@ -45,12 +49,13 @@ class Admin extends BaseController
     {
         $this->settings = new Settings();
         $this->callbacks = new AdminCallbacks();
+        $this->callbacks_manager = new ManagerCallbacks();
         $this->setPages();
         $this->setSubpages();
         $this->setSettings();
         $this->setSections();
         $this->setFields();
-        $this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->addSubPages( $this->subpages )->register();
+        $this->settings->addPages($this->pages)->withSubPage('Dashboard')->addSubPages($this->subpages)->register();
     }
 
     /**
@@ -64,7 +69,7 @@ class Admin extends BaseController
                 'menu_title' => 'Enam',
                 'capability' => 'manage_options',
                 'menu_slug' => 'enamPlugin',
-                'callback' => array( $this->callbacks, 'adminDashboard' ),
+                'callback' => array($this->callbacks, 'adminDashboard'),
                 'icon_url' => 'dashicons-store',
                 'position' => 110
             )
@@ -83,7 +88,7 @@ class Admin extends BaseController
                 'menu_title' => 'CPT',
                 'capability' => 'manage_options',
                 'menu_slug' => 'enamCpt',
-                'callback' => array( $this->callbacks, 'adminCpt' )
+                'callback' => array($this->callbacks, 'adminCpt')
             ),
             array(
                 'parent_slug' => 'enamPlugin',
@@ -91,7 +96,7 @@ class Admin extends BaseController
                 'menu_title' => 'Taxonomies',
                 'capability' => 'manage_options',
                 'menu_slug' => 'enamTaxonomies',
-                'callback' => array( $this->callbacks, 'adminTaxonomy' )
+                'callback' => array($this->callbacks, 'adminTaxonomy')
             ),
             array(
                 'parent_slug' => 'enamPlugin',
@@ -99,7 +104,7 @@ class Admin extends BaseController
                 'menu_title' => 'Widgets',
                 'capability' => 'manage_options',
                 'menu_slug' => 'enamWidgets',
-                'callback' => array( $this->callbacks, 'adminWidget' )
+                'callback' => array($this->callbacks, 'adminWidget')
             )
         );
     }
@@ -109,55 +114,111 @@ class Admin extends BaseController
         $args = array(
             array(
                 'option_group' => 'enam_options_group',
-                'option_name' => 'text_example',
-                'callback' => array( $this->callbacks, 'enamOptionsGroup' )
+                'option_name' => 'cpt_manager',
+                'callback' => array($this->callbacks, 'checkBox')
             ),
             array(
                 'option_group' => 'enam_options_group',
-                'option_name' => 'first_name'
-            )
+                'option_name' => 'tax_manager',
+                'callback' => array($this->callbacks, 'checkBox')
+            ),
+            array(
+                'option_group' => 'enam_options_group',
+                'option_name' => 'media_widget',
+                'callback' => array($this->callbacks, 'checkBox')
+            ),
+            array(
+                'option_group' => 'enam_options_group',
+                'option_name' => 'user_manager',
+                'callback' => array($this->callbacks, 'checkBox')
+            ),
+            array(
+                'option_group' => 'enam_options_group',
+                'option_name' => 'user_manager',
+                'callback' => array($this->callbacks, 'checkBox')
+            ),
+            array(
+                'option_group' => 'enam_options_group',
+                'option_name' => 'contact_manager',
+                'callback' => array($this->callbacks, 'checkBox')
+            ),
         );
-        $this->settings->setSettings( $args );
+        $this->settings->setSettings($args);
     }
+
     public function setSections()
     {
         $args = array(
             array(
                 'id' => 'enam_admin_index',
                 'title' => 'Settings',
-                'callback' => array( $this->callbacks, 'enamAdminSection' ),
+                'callback' => array($this->callbacks_manager, 'adminSectionManager'),
                 'page' => 'enamPlugin'
             )
         );
-        $this->settings->setSections( $args );
+        $this->settings->setSections($args);
     }
+
     public function setFields()
     {
         $args = array(
             array(
-                'id' => 'text_example',
-                'title' => 'Text Example',
-                'callback' => array( $this->callbacks, 'enamTextExample' ),
+                'id' => 'cpt_manager',
+                'title' => 'Cpt Manager',
+                'callback' => array($this->callbacks_manager, "checkBoxField"),
                 'page' => 'enamPlugin',
                 'section' => 'enam_admin_index',
                 'args' => array(
-                    'label_for' => 'text_example',
-                    'class' => 'example-class'
+                    'label_for' => 'cpt_manager',
+                    'class' => 'ui-toggle'
                 )
             ),
             array(
-                'id' => 'first_name',
-                'title' => 'First Name',
-                'callback' => array( $this->callbacks, 'enamFirstName' ),
+                'id' => 'tax_manager',
+                'title' => 'Tax Manager',
+                'callback' => array($this->callbacks_manager, "checkBoxField"),
                 'page' => 'enamPlugin',
                 'section' => 'enam_admin_index',
                 'args' => array(
-                    'label_for' => 'first_name',
-                    'class' => 'example-class'
+                    'label_for' => 'tax_manager',
+                    'class' => 'ui-toggle'
                 )
+            ),
+            array(
+                'id' => 'media_widget',
+                'title' => 'Widget Manager',
+                'callback' => array($this->callbacks_manager, "checkBoxField"),
+                'page' => 'enamPlugin',
+                'section' => 'enam_admin_index',
+                'args' => array(
+                    'label_for' => 'media_widget',
+                    'class' => 'ui-toggle'
+                )
+            ),
+            array(
+                'id' => 'user_manager',
+                'title' => 'User Manager',
+                'callback' => array($this->callbacks_manager, "checkBoxField"),
+                'page' => 'enamPlugin',
+                'section' => 'enam_admin_index',
+                'args' => array(
+                    'label_for' => 'user_manager',
+                    'class' => 'ui-toggle'
+                ),
+            ),
+            array(
+                'id' => 'contact_manager',
+                'title' => 'Contact Manager',
+                'callback' => array($this->callbacks_manager, "checkBoxField"),
+                'page' => 'enamPlugin',
+                'section' => 'enam_admin_index',
+                'args' => array(
+                    'label_for' => 'contact_manager',
+                    'class' => 'ui-toggle'
+                ),
             )
-        );
-        $this->settings->setFields( $args );
+            );
+        $this->settings->setFields($args);
     }
 
 

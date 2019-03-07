@@ -3,9 +3,9 @@
     <?php settings_errors(); ?>
 
     <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'settings')" id="defaultOpen">Settings</button>
-        <button class="tablinks" onclick="openCity(event, 'update')">Update</button>
-        <button class="tablinks" onclick="openCity(event, 'about')">About</button>
+        <button class="tablinks" onclick="openTab(event, 'settings')" id="defaultOpen">Settings</button>
+        <button class="tablinks" onclick="openTab(event, 'update')">Update</button>
+        <button class="tablinks" onclick="openTab(event, 'about')">About</button>
     </div>
 
     <div id="settings" class="tabcontent">
@@ -20,7 +20,7 @@
 
     <div id="update" class="tabcontent">
         <h3>Update</h3>
-        <p>This is the update tsb.</p>
+        <p>This is the update tab.</p>
     </div>
 
     <div id="about" class="tabcontent">

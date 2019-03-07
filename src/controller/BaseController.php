@@ -28,6 +28,9 @@ class BaseController
      */
     public $plugin;
 
+
+    public $managers = array();
+
     /**
      * BaseController constructor.
      */
@@ -35,5 +38,14 @@ class BaseController
         $this->plugin_path = plugin_dir_path( dirname( __FILE__, 2 ) );
         $this->plugin_url = plugin_dir_url( dirname( __FILE__, 2 ) );
         $this->plugin = plugin_basename( dirname( __FILE__, 3 ) ) . '/enamPlugin.php';
+        $this->managers = array(
+            'cpt_manager' => 'CPT Manager',
+            'tax_manager' => 'Taxonomy Manager',
+            'media_widget' => 'Media Widget',
+            'user_manager' => 'User Manager',
+            'contact_manager' => 'Contact Manager'
+        );
     }
+
+
 }

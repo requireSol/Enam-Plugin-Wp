@@ -11,7 +11,7 @@
     <div id="settings" class="tabcontent">
         <form method="post" action="options.php">
             <?php
-            settings_fields( 'enam_options_group' );
+            settings_fields( 'enamPluginSettings' );
             do_settings_sections( 'enamPlugin' );
             submit_button();
             ?>

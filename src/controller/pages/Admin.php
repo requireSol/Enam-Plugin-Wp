@@ -111,39 +111,15 @@ class Admin extends BaseController
 
     public function setSettings()
     {
-        $args = array(
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'cpt_manager',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'tax_manager',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'media_widget',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'user_manager',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'user_manager',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-            array(
-                'option_group' => 'enam_options_group',
-                'option_name' => 'contact_manager',
-                'callback' => array($this->callbacks, 'checkBox')
-            ),
-        );
-        $this->settings->setSettings($args);
+        $args = array();
+        foreach ( $this->managers as $key => $value ) {
+            $args[] = array(
+                'option_group' => 'enamPluginSettings',
+                'option_name' => $key,
+                'callback' => array( $this->callbacks_manager, 'checkBox' )
+            );
+        }
+        $this->settings->setSettings( $args );
     }
 
     public function setSections()
@@ -161,64 +137,21 @@ class Admin extends BaseController
 
     public function setFields()
     {
-        $args = array(
-            array(
-                'id' => 'cpt_manager',
-                'title' => 'Cpt Manager',
-                'callback' => array($this->callbacks_manager, "checkBoxField"),
+        $args = array();
+        foreach ( $this->managers as $key => $value ) {
+            $args[] = array(
+                'id' => $key,
+                'title' => $value,
+                'callback' => array( $this->callbacks_manager, 'checkBoxField' ),
                 'page' => 'enamPlugin',
                 'section' => 'enam_admin_index',
                 'args' => array(
-                    'label_for' => 'cpt_manager',
+                    'label_for' => $key,
                     'class' => 'ui-toggle'
                 )
-            ),
-            array(
-                'id' => 'tax_manager',
-                'title' => 'Tax Manager',
-                'callback' => array($this->callbacks_manager, "checkBoxField"),
-                'page' => 'enamPlugin',
-                'section' => 'enam_admin_index',
-                'args' => array(
-                    'label_for' => 'tax_manager',
-                    'class' => 'ui-toggle'
-                )
-            ),
-            array(
-                'id' => 'media_widget',
-                'title' => 'Widget Manager',
-                'callback' => array($this->callbacks_manager, "checkBoxField"),
-                'page' => 'enamPlugin',
-                'section' => 'enam_admin_index',
-                'args' => array(
-                    'label_for' => 'media_widget',
-                    'class' => 'ui-toggle'
-                )
-            ),
-            array(
-                'id' => 'user_manager',
-                'title' => 'User Manager',
-                'callback' => array($this->callbacks_manager, "checkBoxField"),
-                'page' => 'enamPlugin',
-                'section' => 'enam_admin_index',
-                'args' => array(
-                    'label_for' => 'user_manager',
-                    'class' => 'ui-toggle'
-                ),
-            ),
-            array(
-                'id' => 'contact_manager',
-                'title' => 'Contact Manager',
-                'callback' => array($this->callbacks_manager, "checkBoxField"),
-                'page' => 'enamPlugin',
-                'section' => 'enam_admin_index',
-                'args' => array(
-                    'label_for' => 'contact_manager',
-                    'class' => 'ui-toggle'
-                ),
-            )
             );
-        $this->settings->setFields($args);
+        }
+        $this->settings->setFields( $args );
     }
 
 

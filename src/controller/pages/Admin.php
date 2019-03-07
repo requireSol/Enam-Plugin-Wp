@@ -113,9 +113,9 @@ class Admin extends BaseController
     {
         $args = array();
         foreach ( $this->managers as $key => $value ) {
-            $args[] = array(
+            $args[] = array(  //Will be used to save data in database from admin client site admin.php
                 'option_group' => 'enamPluginSettings',
-                'option_name' => $key,
+                'option_name' => "enamPlugin",
                 'callback' => array( $this->callbacks_manager, 'checkBox' )
             );
         }
@@ -146,6 +146,7 @@ class Admin extends BaseController
                 'page' => 'enamPlugin',
                 'section' => 'enam_admin_index',
                 'args' => array(
+                    'option_name' => 'enamPlugin',
                     'label_for' => $key,
                     'class' => 'ui-toggle'
                 )
